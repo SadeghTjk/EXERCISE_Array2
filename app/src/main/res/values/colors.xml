@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="profile_nav">#DB7093</color>
+    <color name="home_nav">#FFB6C1</color>
+    <color name="search_nav">#BC8F8F</color>
+    <color name="favorite_nav">#FFC0CB</color>
+</resources>
