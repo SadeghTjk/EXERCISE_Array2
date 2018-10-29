@@ -88,7 +88,7 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_home, container, false);
-        //bnve = v.findViewById(R.id.bnve);
+        bnve = getActivity().findViewById(R.id.bnve);
 
         rv = v.findViewById(R.id.rv);
         pic = new ArrayList<>();
@@ -107,15 +107,7 @@ public class Home extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                currentFirstVisible = glm.findFirstCompletelyVisibleItemPosition();
 
-                if(currentFirstVisible != i && -1 < currentFirstVisible && currentFirstVisible < pic.size()){
-                    i = currentFirstVisible;
-                    image = pic.get(currentFirstVisible).getImage();
-                    Toast.makeText(getActivity(), ""+currentFirstVisible, Toast.LENGTH_SHORT).show();
-                    color = getNavbarColor.findNavbarColor(BitmapFactory.decodeResource(getActivity().getResources(),
-                            image),getActivity());
-                }
 
             }
 
@@ -124,8 +116,19 @@ public class Home extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
 
                 //Toast.makeText(getActivity(), ""+image, Toast.LENGTH_SHORT).show();
-                   // bnve.setBackgroundColor(color);
-                rv.setBackgroundColor(color);
+
+                currentFirstVisible = glm.findFirstCompletelyVisibleItemPosition();
+
+                if(currentFirstVisible != i && -1 < currentFirstVisible && currentFirstVisible < pic.size()){
+                    i = currentFirstVisible;
+                    image = pic.get(currentFirstVisible).getImage();
+                    Toast.makeText(getActivity(), ""+currentFirstVisible, Toast.LENGTH_SHORT).show();
+                    color = getNavbarColor.findNavbarColor(BitmapFactory.decodeResource(getActivity().getResources(),
+                            image),getActivity());
+                    bnve.setBackgroundColor(color);
+                }
+
+               // rv.setBackgroundColor(color);
 //                RecyclerView.ViewHolder firstViewHolder = rv.findViewHolderForLayoutPosition(viewsId);
 //                itemView = firstViewHolder.itemView;
 

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class Social extends android.support.v7.widget.RecyclerView.Adapter<Social.myHolder> {
@@ -38,7 +40,7 @@ public class Social extends android.support.v7.widget.RecyclerView.Adapter<Socia
     public void onBindViewHolder(@NonNull myHolder myHolder, int i) {
         myHolder.user.setText(al.get(i).memeber);
         myHolder.dec.setText(al.get(i).dec);
-        myHolder.image.setImageResource(al.get(i).image);
+        Glide.with(c).load(al.get(i).image).into(myHolder.image);
         myHolder.comment.setImageResource(R.drawable.comment);
 
         myHolder.image.setOnLongClickListener(new View.OnLongClickListener() {
