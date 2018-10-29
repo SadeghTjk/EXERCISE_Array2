@@ -65,9 +65,10 @@ public class Profile_frag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_profile_frag, container, false);
-        profile_img = v.findViewById(R.id.profile_image);
 
+        profile_img = v.findViewById(R.id.profile_image);
         Glide.with(getActivity()).load(R.drawable.profilepic).into(profile_img);
+
         return v;
     }
 

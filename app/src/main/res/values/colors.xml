@@ -7,4 +7,5 @@
     <color name="home_nav">#FFB6C1</color>
     <color name="search_nav">#BC8F8F</color>
     <color name="favorite_nav">#FFC0CB</color>
+    <color name="default_nav">#c447fe</color>
 </resources>

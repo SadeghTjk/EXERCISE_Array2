@@ -36,21 +36,14 @@ public class Home extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    int image = 0, color, currentFirstVisible, i = 0;
     ArrayList<Pictures> pic;
     RecyclerView rv;
     GridLayoutManager glm;
     Social rva;
     View v;
-    View itemView;
     BottomNavigationViewEx bnve;
-    int currentFirstVisible;
-    int image = 0;
-    int color;
-    int i = 0;
     getNavbarColor getNavbarColor;
-    private static int firstVisibleInListview;
-
-
 
     public Home() {
         // Required empty public constructor
@@ -88,9 +81,11 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_home, container, false);
-        bnve = getActivity().findViewById(R.id.bnve);
 
+        bnve = getActivity().findViewById(R.id.bnve);
         rv = v.findViewById(R.id.rv);
+
+        getNavbarColor = new getNavbarColor();
         pic = new ArrayList<>();
         pic.add(new Pictures("MohammadReza","My Poppy is Sleeping",R.drawable.poppy));
         pic.add(new Pictures("Yasan Ghafarian","My Cute Cats",R.drawable.cats));
@@ -102,27 +97,22 @@ public class Home extends Fragment {
         rv.setLayoutManager(glm);
         rva = new Social(pic,getActivity());
         rv.setAdapter(rva);
-        getNavbarColor = new getNavbarColor();
+
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
 
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                //Toast.makeText(getActivity(), ""+image, Toast.LENGTH_SHORT).show();
-
                 currentFirstVisible = glm.findFirstCompletelyVisibleItemPosition();
 
                 if(currentFirstVisible != i && -1 < currentFirstVisible && currentFirstVisible < pic.size()){
                     i = currentFirstVisible;
                     image = pic.get(currentFirstVisible).getImage();
-                    Toast.makeText(getActivity(), ""+currentFirstVisible, Toast.LENGTH_SHORT).show();
                     color = getNavbarColor.findNavbarColor(BitmapFactory.decodeResource(getActivity().getResources(),
                             image),getActivity());
                     bnve.setBackgroundColor(color);

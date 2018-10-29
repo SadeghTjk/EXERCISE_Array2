@@ -15,7 +15,7 @@ public class getNavbarColor {
     public int findNavbarColor(Bitmap bitmap,Context c) {
 
         Palette p = createPaletteSync(bitmap);
-        Palette.Swatch vibrantSwatch = p.getLightMutedSwatch();
+        Palette.Swatch vibrantSwatch = p.getLightVibrantSwatch();
 
         // Load default colors
         int backgroundColor = ContextCompat.getColor(c,

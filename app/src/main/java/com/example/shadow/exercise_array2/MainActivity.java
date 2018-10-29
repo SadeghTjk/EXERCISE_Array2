@@ -1,72 +1,68 @@
 package com.example.shadow.exercise_array2;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.transition.Transition;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.Gallery;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import com.example.shadow.exercise_array2.fragments.Home;
 import com.example.shadow.exercise_array2.fragments.Profile_frag;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    //Variables
     BottomNavigationViewEx bnve;
-    //ImageView iv2;
     FloatingActionButton fab;
     android.support.v7.widget.Toolbar toolbar;
     getNavbarColor getNavbarColor;
     FrameLayout container;
+    int homef = 0,favoritef = 0;
+    final Fragment homefragment =new Home(),profilefragment = new Profile_frag();
+    Fragment active = homefragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //rv = findViewById(R.id.rv);
+        //References
         bnve = findViewById(R.id.bnve);
         fab = findViewById(R.id.fab);
         toolbar = findViewById(R.id.toolbar);
         container = findViewById(R.id.container);
-        //iv2 = findViewById(R.id.imageView2);
         getNavbarColor = new getNavbarColor();
 
-        //bnve.enableItemShiftingMode(false);
-        bnve.enableShiftingMode(false);
+        //Bottom Navigation View Settings
+//        bnve.enableItemShiftingMode(false);
+//        bnve.enableShiftingMode(false);
+
         //bnve.enableAnimation(false);
-        bnve.setTextVisibility(false);
+        //bnve.setTextVisibility(false);
         bnve.setIconSize(30);
+        bnve.setBackgroundColor(getColor(R.color.default_nav));
 
+        //Set Default Fragment to Home
+        getFragmentManager().beginTransaction().replace(R.id.container,homefragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.container,profilefragment).hide(profilefragment).commit();
 
-
+        //Floating Action Button
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,52 +70,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Bottom Navigation onClick
         bnve.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            private int previousPosition = -1;
-
-
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int position = 0;
-                switch (item.getItemId()) {
+                switch (item.getItemId()){
                     case R.id.homenav:
                         position = 0;
-                        setFragment(new Home());
-                       // bnve.setBackgroundColor(getResources().getColor(R.color.home_nav));
+                        //bnve.getSmallLabelAt(position).setText("");
+                        Toast.makeText(MainActivity.this, ""+bnve.getLargeLabelAt(position).getText().toString(), Toast.LENGTH_SHORT).show();
+
+                        setFragment(homefragment);
+                        active = homefragment;
                         break;
                     case R.id.searchnav:
                         position = 1;
+                        homef = 0;
                         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                         photoPickerIntent.setType("image/*");
                         startActivityForResult(photoPickerIntent, 22);
                         break;
                     case R.id.favornav:
                         position = 2;
-                       /// bnve.setBackgroundColor(getResources().getColor(R.color.favorite_nav));
-//                        Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-//                                R.drawable.cute);
-//                        setToolbarColor(icon);
+//                        Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.cute);
                         break;
                     case R.id.profilenav:
                         position = 3;
-                       // bnve.setBackgroundColor(getResources().getColor(R.color.profile_nav));
-                        setFragment(new Profile_frag());
+                        setFragment(profilefragment);
+                        active = profilefragment;
                         break;
                     case R.id.emptynav:
                         return false;
                 }
-
                 return true;
+            }
+        });
+
+        bnve.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+                Log.d("navbar double clicked","double tapped");
             }
         });
     }
 
-    // show fragments methode
     public void setFragment(Fragment fragment){
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.container,fragment).commit();
+        getFragmentManager().beginTransaction().hide(active).show(fragment).addToBackStack(null).commit();
     }
-
     //image picker result
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {

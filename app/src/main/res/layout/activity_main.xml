@@ -25,10 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
+        android:layout_above="@+id/bnve"
         android:background="#fff"
-        android:orientation="vertical" >
+        android:orientation="vertical" />
 
-    </FrameLayout>
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/bnve"
         android:layout_width="match_parent"
@@ -37,7 +37,8 @@
         android:background="@android:color/white"
         app:elevation="5dp"
         app:itemIconTint="@color/bnic"
-        app:menu="@menu/menu_navigation_center_fab" />
+        app:menu="@menu/menu_navigation_center_fab"
+        app:itemHorizontalTranslationEnabled="false"/>
 
 
         <android.support.design.widget.FloatingActionButton
