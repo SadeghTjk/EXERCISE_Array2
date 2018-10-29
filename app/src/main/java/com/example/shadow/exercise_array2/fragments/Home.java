@@ -44,8 +44,9 @@ public class Home extends Fragment {
     View itemView;
     BottomNavigationViewEx bnve;
     int currentFirstVisible;
-    int image;
+    int image = 0;
     int color;
+    int i = 0;
     getNavbarColor getNavbarColor;
     private static int firstVisibleInListview;
 
@@ -107,9 +108,15 @@ public class Home extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 currentFirstVisible = glm.findFirstCompletelyVisibleItemPosition();
-                image = pic.get(currentFirstVisible).getImage();
-                color = getNavbarColor.findNavbarColor(BitmapFactory.decodeResource(getActivity().getResources(),
-                        image),getActivity());
+
+                if(currentFirstVisible != i && -1 < currentFirstVisible && currentFirstVisible < pic.size()){
+                    i = currentFirstVisible;
+                    image = pic.get(currentFirstVisible).getImage();
+                    Toast.makeText(getActivity(), ""+currentFirstVisible, Toast.LENGTH_SHORT).show();
+                    color = getNavbarColor.findNavbarColor(BitmapFactory.decodeResource(getActivity().getResources(),
+                            image),getActivity());
+                }
+
             }
 
             @Override
