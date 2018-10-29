@@ -18,8 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.example.shadow.exercise_array2.fragments.Favorite;
 import com.example.shadow.exercise_array2.fragments.Home;
 import com.example.shadow.exercise_array2.fragments.Profile_frag;
+import com.example.shadow.exercise_array2.fragments.Search;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -34,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
     getNavbarColor getNavbarColor;
     FrameLayout container;
     int homef = 0,favoritef = 0;
-    final Fragment homefragment =new Home(),profilefragment = new Profile_frag();
+    final Fragment homefragment =new Home(),
+            profilefragment = new Profile_frag(),
+            favoritefragment = new Favorite(),
+            searchfragment = new Search();
     Fragment active = homefragment;
 
     @Override
@@ -61,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         //Set Default Fragment to Home
         getFragmentManager().beginTransaction().replace(R.id.container,homefragment).commit();
         getFragmentManager().beginTransaction().add(R.id.container,profilefragment).hide(profilefragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.container,searchfragment).hide(searchfragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.container,favoritefragment).hide(favoritefragment).commit();
 
         //Floating Action Button
         fab.setOnClickListener(new View.OnClickListener() {
