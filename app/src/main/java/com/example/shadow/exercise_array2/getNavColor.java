@@ -6,9 +6,9 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 
-public class getNavbarColor {
+public class getNavColor {
 
-    public getNavbarColor() {
+    public getNavColor() {
     }
 
     public int findNavbarColor(Bitmap bitmap,Context c) {
@@ -29,8 +29,8 @@ public class getNavbarColor {
         }
         return backgroundColor;
         // Set the toolbar background and text colors
-        //bnve.setBackgroundColor(backgroundColor);
         //toolbar.setTitleTextColor(textColor);
+
 
     }
     public Palette createPaletteSync(Bitmap bitmap) {

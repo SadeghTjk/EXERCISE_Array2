@@ -3,20 +3,18 @@ package com.example.shadow.exercise_array2;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.app.FragmentTransaction;
 import android.app.Fragment;
-import android.support.transition.Transition;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.shadow.exercise_array2.fragments.Favorite;
@@ -34,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationViewEx bnve;
     FloatingActionButton fab;
     android.support.v7.widget.Toolbar toolbar;
-    getNavbarColor getNavbarColor;
-    FrameLayout container;
+    getNavColor getNavColor;
+    CoordinatorLayout container;
+    AppBarLayout appbar;
     int homef = 0,favoritef = 0;
     final Fragment homefragment =new Home(),
             profilefragment = new Profile_frag(),
@@ -53,22 +52,23 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         toolbar = findViewById(R.id.toolbar);
         container = findViewById(R.id.container);
-        getNavbarColor = new getNavbarColor();
+        getNavColor = new getNavColor();
+        appbar = findViewById(R.id.abl);
 
         //Bottom Navigation View Settings
 //        bnve.enableItemShiftingMode(false);
 //        bnve.enableShiftingMode(false);
-
         //bnve.enableAnimation(false);
         //bnve.setTextVisibility(false);
         bnve.setIconSize(30);
         bnve.setBackgroundColor(getColor(R.color.default_nav));
-
+        toolbar.setBackgroundColor(getColor(R.color.default_nav));
         //Set Default Fragment to Home
         getFragmentManager().beginTransaction().replace(R.id.container,homefragment).commit();
         getFragmentManager().beginTransaction().add(R.id.container,profilefragment).hide(profilefragment).commit();
         getFragmentManager().beginTransaction().add(R.id.container,searchfragment).hide(searchfragment).commit();
         getFragmentManager().beginTransaction().add(R.id.container,favoritefragment).hide(favoritefragment).commit();
+
 
         //Floating Action Button
         fab.setOnClickListener(new View.OnClickListener() {
@@ -77,12 +77,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Floating Action", Toast.LENGTH_SHORT).show();
             }
         });
-
         //Bottom Navigation onClick
         bnve.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int position = 0;
+
                 switch (item.getItemId()){
                     case R.id.homenav:
                         position = 0;
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 //iv2.setImageBitmap(selectedImage);
 
-                int color = getNavbarColor.findNavbarColor(selectedImage,getApplicationContext());
+                int color = getNavColor.findNavbarColor(selectedImage,getApplicationContext());
                 bnve.setBackgroundColor(color);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

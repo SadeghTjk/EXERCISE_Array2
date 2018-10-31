@@ -8,4 +8,6 @@
     <color name="search_nav">#BC8F8F</color>
     <color name="favorite_nav">#FFC0CB</color>
     <color name="default_nav">#c447fe</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
 </resources>

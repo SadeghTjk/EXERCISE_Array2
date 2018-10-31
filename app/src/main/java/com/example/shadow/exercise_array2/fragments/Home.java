@@ -6,11 +6,14 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -38,12 +41,16 @@ public class Home extends Fragment {
     private String mParam2;
     int image = 0, color, currentFirstVisible, i = 0;
     ArrayList<Pictures> pic;
+    ArrayList<Integer> colors ;
     RecyclerView rv;
     GridLayoutManager glm;
     Social rva;
     View v;
+    Toolbar toolbar;
     BottomNavigationViewEx bnve;
+    AppBarLayout appBarLayout;
     getNavbarColor getNavbarColor;
+    picColors picColors;
 
     public Home() {
         // Required empty public constructor
@@ -82,8 +89,10 @@ public class Home extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_home, container, false);
 
+        appBarLayout = getActivity().findViewById(R.id.abl);
         bnve = getActivity().findViewById(R.id.bnve);
         rv = v.findViewById(R.id.rv);
+        toolbar = getActivity().findViewById(R.id.toolbar);
 
         getNavbarColor = new getNavbarColor();
         pic = new ArrayList<>();
@@ -97,6 +106,8 @@ public class Home extends Fragment {
         rv.setLayoutManager(glm);
         rva = new Social(pic,getActivity());
         rv.setAdapter(rva);
+        picColors = new picColors(getActivity());
+        colors = picColors.getBitmap();
 
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -108,14 +119,16 @@ public class Home extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                currentFirstVisible = glm.findFirstCompletelyVisibleItemPosition();
 
+                currentFirstVisible = glm.findFirstCompletelyVisibleItemPosition();
                 if(currentFirstVisible != i && -1 < currentFirstVisible && currentFirstVisible < pic.size()){
                     i = currentFirstVisible;
-                    image = pic.get(currentFirstVisible).getImage();
-                    color = getNavbarColor.findNavbarColor(BitmapFactory.decodeResource(getActivity().getResources(),
-                            image),getActivity());
-                    bnve.setBackgroundColor(color);
+//                    image = pic.get(currentFirstVisible).getImage();
+//                    color = getNavColor.findNavbarColor(BitmapFactory.decodeResource(getActivity().getResources(),
+//                            image),getActivity());
+                    int i = colors.get(currentFirstVisible);
+                    bnve.setBackgroundColor(i);
+                    toolbar.setBackgroundColor(i);
                 }
 
                // rv.setBackgroundColor(color);
@@ -130,6 +143,7 @@ public class Home extends Fragment {
                 //firstVisibleInListview = currentFirstVisible;
             }
         });
+
         return v;
     }
 
